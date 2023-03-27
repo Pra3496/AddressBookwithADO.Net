@@ -30,7 +30,7 @@
                 Console.WriteLine("\n\tWell-Come to AddressBook with MS-SQL\n");
                 Console.WriteLine("\t\t-:OPTIONS:-\n");
                 Console.WriteLine("1 : ADDING Data to AddressBook");
-                
+                Console.WriteLine("2 : DISPLAY Data From AddressBook");
                 Console.WriteLine("0 : EXIT\n");
                 Console.Write("Enter option : ");
                 int opt = Convert.ToInt32(Console.ReadLine());
@@ -43,7 +43,12 @@
                         Console.Write("Press any key...");
                         Console.ReadKey();
                         break;
-                    
+                    case 2:
+                        Console.WriteLine("---------{ DISPLAY Data From AddressBook }---------");
+                        addressbook.GetAllDataFromDataBase();
+                        Console.Write("Press any key...");
+                        Console.ReadKey();
+                        break;
                     case 0:
                         flag = false;
                         break;

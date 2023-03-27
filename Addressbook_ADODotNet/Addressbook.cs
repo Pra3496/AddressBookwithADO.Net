@@ -49,7 +49,71 @@ namespace Addressbook_ADODotNet
 
             
         }
-       
+
+        public void GetAllDataFromDataBase()
+        {
+            int iCnt = 0;
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            try
+            {
+                List<AddressbookModel> addressBookList = new List<AddressbookModel>();
+
+                using (sqlConnection)
+                {
+                    sqlConnection.Open();
+                    SqlCommand sqlCommand = new SqlCommand("SpGetAllDataFromDB", sqlConnection);
+
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+                            AddressbookModel addressBookModel = new AddressbookModel();
+
+                            addressBookModel.FirstName = sqlReader.GetString(1);
+                            addressBookModel.LastName = sqlReader.GetString(2);
+                            addressBookModel.Address = sqlReader.GetString(3);
+                            addressBookModel.City = sqlReader.GetString(4);
+                            addressBookModel.State = sqlReader.GetString(5);
+                            addressBookModel.Zip = sqlReader.GetInt32(6);
+                            addressBookModel.PhoneNumber = sqlReader.GetInt64(7);
+                            addressBookModel.Email = sqlReader.GetString(8);
+
+                            addressBookList.Add(addressBookModel);
+                        }
+
+                        foreach (AddressbookModel item in addressBookList)
+                        {
+                            Console.WriteLine("+++++++++++[ {0} ]+++++++++++", ++iCnt);
+
+                            Console.WriteLine("FirstName    : " + item.FirstName);
+                            Console.WriteLine("LastName     : " + item.LastName);
+                            Console.WriteLine("Address      : " + item.Address);
+                            Console.WriteLine("City         : " + item.City);
+                            Console.WriteLine("State        : " + item.State);
+                            Console.WriteLine("Zip          : " + item.Zip);
+                            Console.WriteLine("Phone Number : " + item.PhoneNumber);
+                            Console.WriteLine("Email        : " + item.Email);
+
+                            Console.WriteLine("\n+++++++++++*+*+*+*++++++++++++\n");
+                        }
+                    }
+                    else
+                        Console.WriteLine("no data found in table");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
+
 
 
 
